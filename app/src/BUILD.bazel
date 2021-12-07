@@ -1,0 +1,56 @@
+load("@npm//@bazel/typescript:index.bzl", "ts_project")
+
+DEPS = [
+    "@npm//@types/node",
+    "@npm//@types/react",
+    "@npm//@types/react-dom",
+    "@npm//react",
+    "@npm//react-dom",
+    "@npm//react-scripts",
+    "@npm//typescript",
+]
+
+ts_project(
+    name = "compiled",
+    srcs = glob(
+        [
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.css",
+            "**/*.svg",
+        ],
+        exclude = [
+            "**/*.test.ts",
+            "**/*.test.tsx",
+            "**/*.stories.tsx",
+            "setupTests.ts",
+            "stories/**/*",
+        ],
+    ),
+    declaration = True,
+    extends = "//app:tsconfig",
+    tsconfig = {},
+    deps = DEPS,
+)
+
+ts_project(
+    name = "storybook_compiled",
+    srcs = glob(
+        [
+            "stories/**/*",
+        ],
+        exclude = [
+            "**/*.test.ts",
+            "**/*.test.tsx",
+            "setupTests.ts",
+        ],
+    ),
+    declaration = True,
+    extends = "//app:tsconfig",
+    tsconfig = {},
+    visibility = ["//visibility:public"],
+    deps = [
+        ":compiled",
+        "@npm//@storybook/react",
+    ],
+)

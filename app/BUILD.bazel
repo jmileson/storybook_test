@@ -1,0 +1,46 @@
+load("@npm//@bazel/typescript:index.bzl", "ts_config")
+load("@npm//@bazel/typescript:index.bzl", "ts_project")
+load("@npm//@storybook/react:index.bzl", "start_storybook")
+
+exports_files(
+    [
+        "tsconfig.json",
+        "package.json",
+        "yarn.lock",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+ts_config(
+    name = "tsconfig",
+    src = "tsconfig.json",
+    visibility = ["__subpackages__"],
+)
+
+STORYBOOK_DEPS = [
+    "@npm//@storybook/addon-actions",
+    "@npm//@storybook/addon-essentials",
+    "@npm//@storybook/addon-links",
+    "@npm//@storybook/node-logger",
+    "@npm//@storybook/source-loader",
+    "@npm//webpack",
+    "//app/src:storybook_compiled",
+]
+
+start_storybook(
+    name = "storybook",
+    chdir = package_name(),
+    data = glob([
+        ".storybook/*.js",
+        "public/**/*",
+    ]) + STORYBOOK_DEPS,
+    env = {
+        "CACHE_DIR": ".cache",
+    },
+    templated_args = [
+        "-c",
+        "$$(dirname $$(rlocation $(rootpath :.storybook/main.js)))",
+        "-p",
+        "3000",
+    ],
+)

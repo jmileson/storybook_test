@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "preserveSymlinks": true,
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "CommonJS",
+    "jsx": "react-jsx",
+    "rootDirs": [
+      ".",
+      "../bazel-out/host/bin/app",
+      "../bazel-out/darwin-fastbuild/bin/app",
+      "../bazel-out/k8-fastbuild/bin/app",
+      "../bazel-out/x64_windows-fastbuild/bin/app",
+      "../bazel-out/darwin-dbg/bin/app",
+      "../bazel-out/k8-dbg/bin/app",
+      "../bazel-out/x64_windows-dbg/bin/app",
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}
